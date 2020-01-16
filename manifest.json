@@ -1,0 +1,43 @@
+{
+  "name": "ABC Role Swticher",
+  "version": "0.1",
+  "description": "Easily switch between Alibaba Cloud RAM roles. You can configure role 'profiles' in a format similar to the 'aliyun/config' file used by the Alibaba Cloud CLI tools.",
+  "short_name": "ABC SwitchRoles",
+  "permissions": ["storage"],
+  "icons" : {
+    "48": "icons/Icon_48x48.png",
+    "128": "icons/Icon_128x128.png"
+  },
+  "browser_action": {
+    "default_title": "ABC Role Switcher",
+    "default_icon": "icons/Icon_38x38.png",
+    "default_popup": "popup.html"
+  },
+  // "content_scripts": [
+  //   {
+  //     "matches": [
+  //       "https://console.aliyun.com"
+  //     ],
+  //     "all_frames": true,
+  //     "js": [
+  //       "js/sanitizer.js",
+  //       "js/content.js"
+  //     ],
+  //     "run_at": "document_end"
+  //   }
+  // ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "web_accessible_resources": [
+    "js/csrf-setter.js"
+  ],
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ],
+    "persistent": false
+  },
+  "manifest_version": 2
+}
