@@ -114,14 +114,16 @@ code {
   <h4>Optional parameters</h4>
   <ul>
    <li><code>color</code> - The RGB hex value (without the prefix '#') for the color of the header bottom border and around the current profile.</li>
-  <pre>
-    [role1]
-    acs:ram::1234567890123456:role/my_role
-    
-    [role2]
-    abc_account_id = 1234567890123456
-    role_name = my_role
-    color = ffaaff
+  </ul>
+  <h4>Example Configuration</h4>
+   <pre>
+[role1]
+role_arn = acs:ram::1234567890123456:role/my_role
+
+[role2]
+abc_account_id = 1234567890123456
+role_name = my_role
+color = ffaaff
   </pre>
  </section>
 </div>

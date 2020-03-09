@@ -1,6 +1,6 @@
 # ABC Role Switcher
 
-Easily switch between RAM Roles on Alibaba Cloud using this handy browser extension, available for both Chrome and Firefox.
+Easily switch between RAM Roles on Alibaba Cloud using this handy browser extension, available for both Chrome and Firefox (well, *soon* anyway).
 
 ## Installation
 
@@ -14,11 +14,7 @@ You can specify multiple roles, using either the role_arn or role_name plus acco
 
 #### Optional parameters
 
-Coming soon.
-
-## Settings
-
-Coming soon.
+Color: A color which will be displayed around the top of the Alibaba Cloud console menu bar, allowing you to visually differentiate roles.
 
 ## Donations
 
@@ -26,4 +22,4 @@ Please direct donations to *tilfin*, who inspired this role switcher plugin with
 
 ## Appearance
 
-Coming soon.
+Coming soon!

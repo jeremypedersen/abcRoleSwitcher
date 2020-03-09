@@ -30,16 +30,26 @@ window.onload = function() {
 
     try {
       const profiles = loadabcConfig(rabctr);
+
+      console.log("Ran loadabcConfig")
+
       if (profiles.length > 200) {
         msgSpan.innerHTML = '<span style="color:#dd1111">Failed to save because the number of profiles exceeded the maximum (200)!</span>';
         return;
       }
 
+      console.log("Parsing raw data")
+
       localStorage['rawdata'] = rabctr;
 
       const dps = new DataProfilesSplitter();
+
+      console.log("Created DataProfilesSplitter")
+
       const dataSet = dps.profilesToDataSet(profiles);
       dataSet.lztext = LZString.compressToUTF16(rabctr);
+
+      console.log("Parse complete")
 
       chrome.storage.sync.set(dataSet,
         function() {
@@ -59,18 +69,7 @@ window.onload = function() {
     }
   }
 
-  const booleanSettings = ['hidesHistory', 'hidesAccountId', 'showOnlyMatchingRoles', 'autoAssumeLastRole'];
-  for (let key of booleanSettings) {
-    elById(`${key}CheckBox`).onchange = function() {
-      chrome.storage.sync.set({ [key]: this.checked });
-    }
-  }
-
-  elById('configSenderIdText').onchange = function() {
-    chrome.storage.sync.set({ configSenderId: this.value });
-  }
-
-  chrome.storage.sync.get(['lztext', 'configSenderId'].concat(booleanSettings), function(data) {
+  chrome.storage.sync.get(['lztext'], function(data) {
     let rawData = localStorage['rawdata'];
     if (data.lztext) {
       try {
@@ -80,9 +79,5 @@ window.onload = function() {
       }
     }
     textArea.value = rawData || '';
-    elById('configSenderIdText').value = data.configSenderId || '';
-    for (let key of booleanSettings) {
-      elById(`${key}CheckBox`).checked = data[key] || false;
-    }
   });
 }
