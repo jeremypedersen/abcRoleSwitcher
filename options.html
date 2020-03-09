@@ -105,123 +105,25 @@ code {
    <span id="msgSpan" style="margin-left:12px"></span>
   </div>
  </section>
- <section id="settings">
-  <h1>Settings</h1>
-  <ul>
-    <li><label for="hidesHistoryCheckBox"><input type="checkbox" id="hidesHistoryCheckBox">Hide original role history</label></li>
-    <li><label for="hidesAccountIdCheckBox"><input type="checkbox" id="hidesAccountIdCheckBox">Hide account id</label></li>
-    <li><label for="showOnlyMatchingRolesCheckBox"><input type="checkbox" id="showOnlyMatchingRolesCheckBox">Show only matching roles</label></li>
-    <li><label for="autoAssumeLastRoleCheckBox"><input type="checkbox" id="autoAssumeLastRoleCheckBox">Automatically assume last assumed role</label> (Experimental) </li>
-  </ul>
- </section>
- <section id="api">
-  <h1>Extension API</h1>
-  <div>
-   <label for="configSenderIdText">Config sender extension ID:</label>
-   <input id="configSenderIdText" type="text" maxlength="48" style="width: 48ex">
-  </div>
- </section>
 </div>
 <div class="pane" id="howto">
  <h2>Configuration</h2>
  <section>
-  <h3>Simple Configuration</h3>
-  <p>The simplest configuration is for multiple <b>target roles</b> when you always intend to show the whole list.  <b>Target roles</b> can be expressed with a <code>role_arn</code> or with both <code>abc_account_id</code> and <code>role_name</code>.</p>
+  <p>Simply enter your RAM role information into the Configuration box to the left. <b>Target roles</b> can be expressed with a <code>role_arn</code> or with both <code>abc_account_id</code> and <code>role_name</code>.</p>
 
   <h4>Optional parameters</h4>
   <ul>
    <li><code>color</code> - The RGB hex value (without the prefix '#') for the color of the header bottom border and around the current profile.</li>
-   <li><code>region</code> - When this parameter is set, automatically switch to this region when assuming the role, if spe region whenever switching the role if this parameter is specified.</li>
-   <li><code>image</code> - The uri of an image to use on top of any color attribute supplied. The color and image are not mutually exclusive.</li>
-  </ul>
   <pre>
-[profile marketingadmin]
+[role1]
 role_arn = arn:abc:iam::123456789012:role/marketingadmin
 color = ffaaee
 
-[anotheraccount]
-abc_account_id = 987654321987
-role_name = anotherrole
-region=ap-northeast-1
-
-[athirdaccount]
+[role2]
 abc_account_id = 987654321988
-role_name = athirdrole
-image = "https://via.placeholder.com/150"
+role_name = my_role
+color = ffaaff
   </pre>
- </section>
- <section>
-  <h3>Complex Configuration</h3>  
-  <p>More complex configurations involve multiple abc accounts and/or organizations.</p>
-  <ul>
-   <li>A profile that has only <code>abc_account_id</code> (without a <code>role_name</code>) is defined as <b>base account</b></li>
-   <li><b>If your account is aliased, the alias will be shown in the role dropdown after 'Account:'.  You MUST use that alias as the abc_account_id for the base account instead of the numerical account id or your configuration won't work as expected.</b></li>
-   <li>A <b>target role</b> is associated with a <b>base account</b> by the <b>target role</b> specifying a <code>source_profile</code>.</li>
-   <li>As above, <b>target roles</b> can be expressed with a <code>role_arn</code> or with both <code>abc_account_id</code> and <code>role_name</code> and can pass the optional parameters.</li>
-   <li>If <code>target_role_name</code> is set in <b>base account</b>, the value is provided as the default role name for each <b>target roles</b>.</li>
-  </ul>
-  <pre>
-[organization1]
-abc_account_id = your-account-alias
-
-[Org1-Account1-Role1]
-role_arn = arn:abc:iam::123456789012:role/Role1
-source_profile = organization1
-
-[Org1-Account1-Role2]
-abc_account_id = 123456789012
-role_name = Role2
-source_profile = organization1
-
-[Org1-Account2-Role1]
-abc_account_id = 210987654321
-role_name = Role1
-source_profile = organization1
-
-[baseaccount2]
-abc_account_id = 000000000000
-
-[Base2-Role1]
-role_arn = arn:abc:iam::234567890123:role/Role1
-source_profile = baseaccount2
-
-[AnotherRole]
-role_name = SomeOtherRole
-abc_account_id = account-3-alias
-
-;
-; target_role_name example
-;
-[Org2-BaseAccount]
-abc_account_id = 222200000000
-target_role_name = Developer
-
-[Org2-Account1-Developer]
-abc_account_id = 222200001111
-source_profile = Org2-BaseAccount
-
-[Org2-Account2-Manager]
-abc_account_id = 222200002222
-role_name = Manager ; overrides target role name
-source_profile = Org2-BaseAccount
-  </pre>
-  <p>If you sign-in a base account, target roles of the other base accounts are excluded.</p>
-  <p>The 'Show only matching roles' setting is for use with more sophisticated account structures where you're using abc Organizations with multiple accounts along with abc Federated Logins via something like Active Directory or Google GSuite.  Common practice is to have a role in the master account that is allowed to assume a role of the same name in other member accounts.  Checking this box means that if you're logged in to the 'Developer' role in the master account, only member accounts with a role_arn ending in 'role/Developer' will be shown.  You won't see roles that your current role can't actually assume.</p>
- </section>
- <section>
-  <h3>Settings</h3>
-  <ul>
-   <li><b>Hide original role history</b> hides original role history (Show only roles in the configuration).</li>
-   <li><b>Hide account id</b> hides the account_id for each profile.</li>
-   <li><b>Show only matching roles</b> filters to only show profiles with roles that match your role in your master account.</li>
-   <li><b>Automatically assume last assumed role (Experimental)</b> automatically assumes last assumed role on the next sign-in if did not back to the base account and signed out.</li>
-  </ul>
- </section>
- <section>
-  <h3>Extension API</h3>
-  <ul>
-   <li><b>Config sender extension</b> allowed by the **ID** can send your switch roles configuration to this extension. <a href="https://github.com/tilfin/abc-role-switcher/wiki/External-API#config-sender-extension" target="_blank" rel="noopener noreferrer">See</a> how to make your config sender extension.</li>
-  </ul>
  </section>
 </div>
 </body>
